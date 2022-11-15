@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <Header @showModal="showModal" />
-    <Modal v-show="isModalVisible" @close="closeModal" />
+    <Modal v-show="isModalVisible" @close="closeModal" :list="list" />
 
     <table class="table">
       <thead>
@@ -63,7 +63,7 @@ export default {
     closeModal() {
       this.isModalVisible = false;
     },
-    
+
     edit(item) {
       this.index = this.list.indexOf(item);
       this.contact = Object.assign({}, item);

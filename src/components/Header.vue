@@ -11,7 +11,7 @@
           + Criar contato
         </button>
 
-        <Modal v-show="isModalVisible" @close="closeModal" />
+        <!-- <Modal v-show="isModalVisible" @close="closeModal" /> -->
       </div>
       <input type="text" class="search" placeholder="Buscar..." />
     </div>
@@ -33,10 +33,7 @@ export default {
   },
   methods: {
     showModal() {
-      this.isModalVisible = true;
-    },
-    closeModal() {
-      this.isModalVisible = false;
+      this.$emit('showModal');
     },
   },
 };

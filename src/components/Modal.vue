@@ -61,6 +61,7 @@
 <script>
 export default {
   name: "Modal",
+  props: ['list', 'contact'],
   data() {
     return {
       contact: {
@@ -69,12 +70,12 @@ export default {
         email: null,
         telephone: null,
       },
-      index: null,
-      list: [],
+      index: null
     };
   },
   methods: {
     add() {
+      console.log(this.list);
       if (this.contact.id === 0) {
         this.contact.id = this.list.length + 1;
         this.list.push(this.contact);
