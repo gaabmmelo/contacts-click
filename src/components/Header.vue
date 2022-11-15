@@ -13,22 +13,10 @@
 </template>
 
 <script>
-import Modal from '@/components/Modal.vue';
 
 export default {
-  components: {
-     Modal,
-  },
-  data: {
-
-  },
-  methods: {
-    openModalContact() {
-      
-    }
-  },
+  name: 'Header',
 };
-
 
 </script>
 
