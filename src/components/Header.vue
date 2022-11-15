@@ -4,7 +4,7 @@
       <img
         alt="Ubook - Clicksign"
         class="ubook-logo"
-        src="../assets/logo-ubook.png"
+        src="../assets/logo-ubook.svg"
       />
       <div id="app">
         <button type="button" class="btn-create" @click="showModal">
@@ -13,7 +13,7 @@
 
         <Modal v-show="isModalVisible" @close="closeModal" />
       </div>
-      <input type="text" class="search" placeholder="Pesquisar..." />
+      <input type="text" class="search" placeholder="Buscar..." />
     </div>
   </div>
 </template>
@@ -77,12 +77,12 @@ export default {
 }
 
 input.search {
-  width: 70%;
+  width: 64.5rem;
+  height: 2rem;
+  margin: 0 0 0 0rem;
+  padding: 0.438rem 0.5rem 0.375rem;
+  border-radius: 4px;
   background-color: #e4e7f4;
-  border: 1px solid #e4e7f4;
-  border-radius: 4px !important;
-  font-size: 14px;
-  color: #9198af;
-  padding-left: 10px;
+  border: none;
 }
 </style>

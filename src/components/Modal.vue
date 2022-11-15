@@ -90,7 +90,7 @@ export default {
 
 .modal {
   background: #ffffff;
-  box-shadow: 2px 2px 20px 1px;
+  box-shadow: 0 16px 10px 0 rgb(0 0 0 / 8%);
   overflow-x: auto;
   display: flex;
   flex-direction: column;
@@ -154,6 +154,11 @@ export default {
   border-radius: 20px;
 }
 
+.btn-coral:hover {
+  background-color: #e85a50;
+  transition: 0.7s;
+}
+
 .modal-fade-enter,
 .modal-fade-leave-to {
   opacity: 0;
@@ -167,15 +172,17 @@ export default {
 label {
   text-align: left;
   padding: 10px 0px 5px;
-  font-weight: bold;
   font-size: 14px;
+  font-weight: normal;
 }
 
-input {
+.modal input {
   line-height: 20px;
-  padding: 8px 0;
-  max-width: 100%;
-  min-width: 0;
-  width: 100%;
+  padding: 0px 0;
+  height: 30px;
+  font-size: 15px;
+  padding: 0px 5px;
+  border-radius: 10px;
+  border: 1px solid #00000070;
 }
 </style>
