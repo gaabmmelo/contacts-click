@@ -22,13 +22,18 @@
         <section class="modal-body" id="modalContent">
           <slot name="body">
             <label for="name">Nome:</label>
-            <input type="text" name="name" />
+            <input type="text" name="name" v-model="contact.name" />
 
             <label for="email">E-mail:</label>
-            <input type="email" name="email" />
+            <input type="email" name="email" v-model="contact.email" />
 
-            <label for="phone">Telefone:</label>
-            <input type="tel" name="phone" placeholder="(xx) xxxxx-xxxx" />
+            <label for="telephone">Telefone:</label>
+            <input
+              type="tel"
+              name="telephone"
+              placeholder="(xx) xxxxx-xxxx"
+              v-model="contact.telephone"
+            />
           </slot>
         </section>
 
@@ -36,16 +41,14 @@
           <button
             type="button"
             class="btn btn-transparent"
-            @click="close"
-            aria-label="Close modal"
+            @click="close()"
           >
             Cancelar
           </button>
           <button
             type="button"
             class="btn btn-coral"
-            @click="saveContact()"
-            aria-label="Close modal"
+            @click="add()"
           >
             Salvar
           </button>
@@ -58,7 +61,41 @@
 <script>
 export default {
   name: "Modal",
+  data() {
+    return {
+      contact: {
+        id: 0,
+        name: null,
+        email: null,
+        telephone: null,
+      },
+      index: null,
+      list: [],
+    };
+  },
   methods: {
+    add() {
+      if (this.contact.id === 0) {
+        this.contact.id = this.list.length + 1;
+        this.list.push(this.contact);
+      } else {
+        this.list[this.index] = this.contact;
+      }
+      localStorage.setItem("contacts", JSON.stringify(this.list));
+      this.contact = { id: 0, name: null, email: null, telephone: null };
+    },
+
+    remove(item) {
+      const idx = this.list.indexOf(item);
+      this.list.splice(idx, 1);
+      localStorage.setItem("contacts", JSON.stringify(this.list));
+    },
+
+    edit(item) {
+      this.index = this.list.indexOf(item);
+      this.contact = Object.assign({}, item);
+      localStorage.setItem("contacts", JSON.stringify(this.list));
+    },
     close() {
       this.$emit("close");
     },
