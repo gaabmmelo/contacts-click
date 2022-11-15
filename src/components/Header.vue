@@ -6,24 +6,46 @@
         class="ubook-logo"
         src="../assets/logo-ubook.png"
       />
-      <button type="button" class="btn-create" @click="openModalContact()">+ Criar contato</button>
-      <input type="text" class="search" placeholder="Pesquisar...">
+      <div id="app">
+        <button type="button" class="btn-create" @click="showModal">
+          + Criar contato
+        </button>
+
+        <Modal v-show="isModalVisible" @close="closeModal" />
+      </div>
+      <input type="text" class="search" placeholder="Pesquisar..." />
     </div>
   </div>
 </template>
 
 <script>
+import Modal from "@/components/Modal.vue";
 
 export default {
-  name: 'Header',
+  name: "Header",
+  components: {
+    Modal,
+  },
+  data() {
+    return {
+      isModalVisible: false,
+    };
+  },
+  methods: {
+    showModal() {
+      this.isModalVisible = true;
+    },
+    closeModal() {
+      this.isModalVisible = false;
+    },
+  },
 };
-
 </script>
 
 <style>
 .content {
-    max-width: 1440px;
-    margin: 0 auto;
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
 .ubook-logo {
@@ -37,29 +59,30 @@ export default {
 }
 
 .justify-space-between {
-    justify-content: space-between;
+  justify-content: space-between;
 }
 
 .btn-create {
-    background-color: #dbff90;
-    border: 1px solid #dbff90;
-    box-shadow: 2px 2px 5px 0px rgb(63 64 61 / 25%);
-    min-width: 64px;
-    padding: 0 16px;
-    height: 40px;
-    color: #fa7268;
-    border-radius: 20px;
-    font-weight: 500;
-    font-size: 14px;
+  background-color: #dbff90;
+  border: 1px solid #dbff90;
+  box-shadow: 2px 2px 5px 0px rgb(63 64 61 / 25%);
+  min-width: 64px;
+  padding: 0 16px;
+  height: 40px;
+  color: #fa7268;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
 }
 
 input.search {
-    width: 70%;
-    background-color: #e4e7f4;
-    border: 1px solid #e4e7f4;
-    border-radius: 4px!important;
-    font-size: 14px;
-    color: #9198af;
-    padding-left: 10px;
+  width: 70%;
+  background-color: #e4e7f4;
+  border: 1px solid #e4e7f4;
+  border-radius: 4px !important;
+  font-size: 14px;
+  color: #9198af;
+  padding-left: 10px;
 }
 </style>
