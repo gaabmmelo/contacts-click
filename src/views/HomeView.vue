@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <Header @showModal="showModal" />
-    <Modal v-show="isModalVisible" @close="closeModal" :list="list" />
+    <Modal v-show="isModalVisible" @close="closeModal" :list="list" :contatoEdicao="contatoEdicao"/>
 
     <table class="table">
       <thead>
@@ -20,8 +20,8 @@
           <td>{{ contact.email }}</td>
           <td>{{ contact.telephone }}</td>
           <td>
-            <button @click="edit(item)" class="btn btn-info">Editar</button>
-            <button @click="remove(item)" class="btn btn-danger">
+            <button @click="edit(contact)" class="btn btn-info">Editar</button>
+            <button @click="remove(contact)" class="btn btn-danger">
               Excluir
             </button>
           </td>
@@ -45,6 +45,7 @@ export default {
     return {
       list: [],
       isModalVisible: false,
+      contatoEdicao: {}
     };
   },
   components: {
@@ -65,10 +66,16 @@ export default {
     },
 
     edit(item) {
-      this.index = this.list.indexOf(item);
-      this.contact = Object.assign({}, item);
+      this.showModal();
+      this.contatoEdicao = { ...item };
+    },
+
+    remove(item) {
+      const idx = this.list.indexOf(item);
+      this.list.splice(idx, 1);
       localStorage.setItem("contacts", JSON.stringify(this.list));
     },
+
   },
 };
 </script>

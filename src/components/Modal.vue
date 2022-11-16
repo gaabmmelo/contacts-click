@@ -61,7 +61,12 @@
 <script>
 export default {
   name: "Modal",
-  props: ['list', 'contact'],
+  props: ['list', 'contact', "contatoEdicao"],
+  watch: {
+    contatoEdicao: function(newVal, oldVal) {
+      this.contact = newVal;
+    }
+  },
   data() {
     return {
       contact: {
@@ -70,33 +75,22 @@ export default {
         email: null,
         telephone: null,
       },
-      index: null
     };
   },
   methods: {
     add() {
-      console.log(this.list);
       if (this.contact.id === 0) {
         this.contact.id = this.list.length + 1;
         this.list.push(this.contact);
       } else {
-        this.list[this.index] = this.contact;
+        this.list[this.list.findIndex(a => a.id == this.contatoEdicao.id)] = this.contact;
       }
       localStorage.setItem("contacts", JSON.stringify(this.list));
       this.contact = { id: 0, name: null, email: null, telephone: null };
+      this.$emit("close");
+
     },
 
-    remove(item) {
-      const idx = this.list.indexOf(item);
-      this.list.splice(idx, 1);
-      localStorage.setItem("contacts", JSON.stringify(this.list));
-    },
-
-    edit(item) {
-      this.index = this.list.indexOf(item);
-      this.contact = Object.assign({}, item);
-      localStorage.setItem("contacts", JSON.stringify(this.list));
-    },
     close() {
       this.$emit("close");
     },
