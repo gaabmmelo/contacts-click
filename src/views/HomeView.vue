@@ -1,7 +1,12 @@
 <template>
   <div class="home">
     <Header @showModal="showModal" />
-    <Modal v-show="isModalVisible" @close="closeModal" :list="list" :contatoEdicao="contatoEdicao"/>
+    <Modal
+      v-show="isModalVisible"
+      @close="closeModal"
+      :list="list"
+      :editContact="editContact"
+    />
 
     <table class="table">
       <thead>
@@ -45,7 +50,7 @@ export default {
     return {
       list: [],
       isModalVisible: false,
-      contatoEdicao: {}
+      editContact: {},
     };
   },
   components: {
@@ -67,15 +72,19 @@ export default {
 
     edit(item) {
       this.showModal();
-      this.contatoEdicao = { ...item };
+      this.editContact = { ...item };
     },
-
     remove(item) {
       const idx = this.list.indexOf(item);
       this.list.splice(idx, 1);
       localStorage.setItem("contacts", JSON.stringify(this.list));
     },
 
+    filter() {
+      if (this.filters.numeroNFE != "") {
+        return this.filters;
+      }
+    },
   },
 };
 </script>

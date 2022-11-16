@@ -38,18 +38,10 @@
         </section>
 
         <footer class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-transparent"
-            @click="close()"
-          >
+          <button type="button" class="btn btn-transparent" @click="close()">
             Cancelar
           </button>
-          <button
-            type="button"
-            class="btn btn-coral"
-            @click="add()"
-          >
+          <button type="button" class="btn btn-coral" @click="saveContact()">
             Salvar
           </button>
         </footer>
@@ -61,11 +53,11 @@
 <script>
 export default {
   name: "Modal",
-  props: ['list', 'contact', "contatoEdicao"],
+  props: ["list", "contact", "editContact"],
   watch: {
-    contatoEdicao: function(newVal, oldVal) {
+    editContact: function (newVal) {
       this.contact = newVal;
-    }
+    },
   },
   data() {
     return {
@@ -78,20 +70,22 @@ export default {
     };
   },
   methods: {
-    add() {
+    saveContact() {
       if (this.contact.id === 0) {
-        this.contact.id = this.list.length + 1;
+        this.contact.id = this.list.length ? this.list.at(-1).id + 1 : 1;
         this.list.push(this.contact);
       } else {
-        this.list[this.list.findIndex(a => a.id == this.contatoEdicao.id)] = this.contact;
+        this.list[
+          this.list.findIndex((item) => item.id == this.editContact.id)
+        ] = this.contact;
       }
       localStorage.setItem("contacts", JSON.stringify(this.list));
       this.contact = { id: 0, name: null, email: null, telephone: null };
       this.$emit("close");
-
     },
 
     close() {
+      this.contact = { id: 0, name: null, email: null, telephone: null };
       this.$emit("close");
     },
   },
