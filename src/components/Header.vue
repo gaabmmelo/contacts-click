@@ -13,7 +13,7 @@
 
         <!-- <Modal v-show="isModalVisible" @close="closeModal" /> -->
       </div>
-      <input type="text" class="search" placeholder="Buscar..." />
+      <input type="text" class="search" placeholder="Buscar..." /><font-awesome-icon icon="search" />
     </div>
   </div>
 </template>
