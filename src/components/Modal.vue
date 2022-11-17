@@ -8,11 +8,13 @@
         aria-describedby="modalContent"
       >
         <header class="modal-header" id="modalTitle">
-          <slot name="header"> Novo contato </slot>
+          <slot name="header">
+            <p class="title-modal">Criar novo contato</p>
+          </slot>
           <button
             type="button"
             class="btn-close"
-            @click="close"
+            @click="closeModal"
             aria-label="Close modal"
           >
             x
@@ -21,27 +23,38 @@
 
         <section class="modal-body" id="modalContent">
           <slot name="body">
-            <label for="name">Nome:</label>
-            <input type="text" name="name" v-model="contact.name" />
+            <div class="form">
+              <label for="name">Nome:</label>
+              <input type="text" name="name" v-model="contact.name" />
 
-            <label for="email">E-mail:</label>
-            <input type="email" name="email" v-model="contact.email" />
+              <label for="email">E-mail:</label>
+              <input type="email" name="email" v-model="contact.email" />
 
-            <label for="telephone">Telefone:</label>
-            <input
-              type="tel"
-              name="telephone"
-              placeholder="(xx) xxxxx-xxxx"
-              v-model="contact.telephone"
-            />
+              <label for="telephone">Telefone:</label>
+              <input
+                type="tel"
+                name="telephone"
+                placeholder="(xx) xxxxx-xxxx"
+                v-model="contact.telephone"
+              />
+            </div>
           </slot>
         </section>
 
         <footer class="modal-footer">
-          <button type="button" class="btn btn-transparent" @click="close()">
+          <button
+            type="button"
+            class="btn btn-transparent"
+            @click="closeModal()"
+          >
             Cancelar
           </button>
-          <button type="button" class="btn btn-coral" @click="saveContact()" :disabled="!contact.name && !contact.email && !contact.telephone" >
+          <button
+            type="button"
+            class="btn btn-coral"
+            @click="saveContact()"
+            :disabled="!contact.name && !contact.email && !contact.telephone"
+          >
             Salvar
           </button>
         </footer>
@@ -70,11 +83,6 @@ export default {
     };
   },
   methods: {
-    validEmail: function (email) {
-      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(email);
-    },
-
     saveContact() {
       if (this.contact.id === 0) {
         this.contact.id = this.list.length ? this.list.at(-1).id + 1 : 1;
@@ -85,20 +93,21 @@ export default {
         ] = this.contact;
       }
       localStorage.setItem("contacts", JSON.stringify(this.list));
-      this.contact = { id: 0, name: null, email: null, telephone: null };
+
       this.$emit("close");
+      this.contact = { id: 0, name: null, email: null, telephone: null };
     },
 
-    close() {
-      this.contact = { id: 0, name: null, email: null, telephone: null };
+    closeModal() {
       this.$emit("close");
+      this.contact = { id: 0, name: null, email: null, telephone: null };
     },
   },
 };
 </script>
 
 
-<style>
+<style scoped>
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -116,7 +125,7 @@ export default {
   flex-direction: column;
   width: 430px;
   position: relative;
-  padding: 5px 15px 20px;
+  padding: 5px 1.5rem 1.375rem;
 }
 
 .modal {
@@ -125,25 +134,31 @@ export default {
   overflow-x: auto;
   display: flex;
   flex-direction: column;
-}
-
-.modal-header,
-.modal-footer {
-  padding: 15px;
-  display: flex;
+  border-radius: 16px;
 }
 
 .modal-header {
   position: relative;
-  border-bottom: 1px solid #eeeeee;
-  color: #fa7268;
+  border-bottom: 1px solid #c0c3d2;
   justify-content: space-between;
-  font-weight: bold;
-  font-size: 15px;
+  font-size: 1rem;
+  color: #2a2d3b;
+  font-weight: normal;
+  display: flex;
+}
+
+.modal-header p {
+  margin: 1rem 7.75rem 0.781rem 1rem;
+}
+
+.modal .form {
+  display: flex;
+  flex-direction: column;
 }
 
 .modal-footer {
-  border-top: 1px solid #eeeeee;
+  border-top: 1px solid #c0c3d2;
+  padding: 0.938rem 1rem 1rem;
   flex-direction: column;
   display: flex;
   flex-direction: row;
@@ -152,6 +167,7 @@ export default {
 
 .btn-close {
   position: absolute;
+  cursor: pointer;
   top: 0;
   right: 0;
   border: none;
@@ -170,19 +186,29 @@ export default {
   color: #fa7268;
   background: transparent;
   border: 1px solid #fff;
-  border-radius: 2px;
   font-weight: bold;
-  height: 30px;
-  border-radius: 20px;
+  border-radius: 16px;
+  margin: 0px 1rem;
+  padding: 0.5rem 1rem;
+  width: 5.5rem;
+  height: 2rem;
+}
+
+.btn-transparent:hover {
+  background-color: #fa726824 !important;
 }
 
 .btn-coral {
   color: white;
   background: #fa7268;
   border: 1px solid #fff;
-  width: 80px;
-  height: 30px;
-  border-radius: 20px;
+  width: 4.5rem;
+  height: 2rem;
+  border-radius: 16px;
+  font-family: roboto, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: normal;
 }
 
 .btn-coral:disabled {
@@ -201,7 +227,7 @@ export default {
 
 .modal-fade-enter-active,
 .modal-fade-leave-active {
-  transition: opacity 0.5s ease;
+  transition: opacity 0.2s ease;
 }
 
 label {
