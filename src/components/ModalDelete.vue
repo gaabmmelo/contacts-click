@@ -9,7 +9,7 @@
       >
         <header class="modal-header" id="modalTitle">
           <slot name="header">
-            <p class="title-modal">Criar novo contato</p>
+            <p class="title-modal">Excluir contato</p>
           </slot>
           <button
             type="button"
@@ -23,21 +23,7 @@
 
         <section class="modal-body" id="modalContent">
           <slot name="body">
-            <div class="form">
-              <label for="name">Nome:</label>
-              <input type="text" name="name" v-model="contact.name" />
-
-              <label for="email">E-mail:</label>
-              <input type="email" name="email" v-model="contact.email" />
-
-              <label for="telephone">Telefone:</label>
-              <input
-                type="tel"
-                name="telephone"
-                placeholder="(xx) xxxxx-xxxx"
-                v-model="contact.telephone"
-              />
-            </div>
+            <p>Deseja realmente excluir o contato?</p>
           </slot>
         </section>
 
@@ -49,13 +35,8 @@
           >
             Cancelar
           </button>
-          <button
-            type="button"
-            class="btn btn-coral"
-            @click="saveContact()"
-            :disabled="!contact.name && !contact.email && !contact.telephone"
-          >
-            Salvar
+          <button type="button" class="btn btn-coral" @click="remove(contact)">
+            Excluir
           </button>
         </footer>
       </div>
@@ -65,39 +46,20 @@
 
 <script>
 export default {
-  name: "Modal",
-  props: ["list", "editContact"],
+  name: "ModalDelete",
+  props: ["list", "deleteContact"],
   watch: {
-    editContact: function (newVal) {
-      this.contact = newVal;
+    deleteContact: function (deleteVal) {
+      this.contact = deleteVal;
     },
-  },
-  data() {
-    return {
-      contact: {
-        id: 0,
-        name: null,
-        email: null,
-        telephone: null,
-      },
-    };
   },
   methods: {
-    saveContact() {
-      if (this.contact.id === 0) {
-        this.contact.id = this.list.length ? this.list.at(-1).id + 1 : 1;
-        this.list.push(this.contact);
-      } else {
-        this.list[
-          this.list.findIndex((item) => item.id == this.editContact.id)
-        ] = this.contact;
-      }
+    remove(item) {
+      const idx = this.list.indexOf(item);
+      this.list.splice(idx, 1);
       localStorage.setItem("contacts", JSON.stringify(this.list));
-
       this.$emit("close");
-      this.contact = { id: 0, name: null, email: null, telephone: null };
     },
-
     closeModal() {
       this.$emit("close");
       this.contact = { id: 0, name: null, email: null, telephone: null };
@@ -105,7 +67,6 @@ export default {
   },
 };
 </script>
-
 
 <style scoped>
 .modal-backdrop {
@@ -123,7 +84,6 @@ export default {
 .modal #modalContent {
   display: flex;
   flex-direction: column;
-  width: 430px;
   position: relative;
   padding: 5px 1.5rem 1.375rem;
 }
@@ -135,6 +95,8 @@ export default {
   display: flex;
   flex-direction: column;
   border-radius: 16px;
+  width: 27rem;
+  height: 12.938rem;
 }
 
 .modal-header {
@@ -151,9 +113,13 @@ export default {
   margin: 1rem 7.75rem 0.781rem 1rem;
 }
 
-.modal .form {
-  display: flex;
-  flex-direction: column;
+.modal-body p {
+  color: #2a2d3b;
+  text-align: left;
+  margin-top: 1.219rem;
+  font-family: roboto, sans-serif;
+  font-size: 0.875rem;
+  font-weight: normal;
 }
 
 .modal-footer {
@@ -228,22 +194,5 @@ export default {
 .modal-fade-enter-active,
 .modal-fade-leave-active {
   transition: opacity 0.2s ease;
-}
-
-label {
-  text-align: left;
-  padding: 10px 0px 5px;
-  font-size: 14px;
-  font-weight: normal;
-}
-
-.modal input {
-  line-height: 20px;
-  padding: 0px 0;
-  height: 30px;
-  font-size: 15px;
-  padding: 0px 5px;
-  border-radius: 10px;
-  border: 1px solid #00000070;
 }
 </style>

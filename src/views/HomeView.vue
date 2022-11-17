@@ -8,6 +8,12 @@
       :editContact="editContact"
     />
 
+    <ModalDelete
+      v-show="isModalVisibleDelete"
+      @close="closeModalDelete"
+      :list="list"
+    />
+
     <div class="content">
       <table class="table">
         <thead>
@@ -26,7 +32,7 @@
               <button @click="edit(contact)" class="btn btn-action">
                 <img class="icon-action" src="@/assets/ic-edit.svg" alt="Editar">
               </button>
-              <button @click="remove(contact)" class="btn btn-action">
+              <button @click="showModalDelete" class="btn btn-action">
                 <img class="icon-action" src="@/assets/ic-delete.svg" alt="Excluir">
               </button>
             </td>
@@ -43,6 +49,7 @@
 // @ is an alias to /src
 import Header from "@/components/Header.vue";
 import Modal from "@/components/Modal.vue";
+import ModalDelete from "@/components/ModalDelete.vue";
 import Footer from "@/components/Footer.vue";
 
 export default {
@@ -51,12 +58,14 @@ export default {
     return {
       list: [],
       isModalVisible: false,
+      isModalVisibleDelete: false,
       editContact: {},
     };
   },
   components: {
     Header,
     Modal,
+    ModalDelete,
     Footer,
   },
   mounted() {
@@ -70,15 +79,16 @@ export default {
     closeModal() {
       this.isModalVisible = false;
     },
+    showModalDelete() {
+      this.isModalVisibleDelete = true;
+    },
+    closeModalDelete() {
+      this.isModalVisibleDelete = false;
+    },
 
     edit(item) {
       this.showModal();
       this.editContact = { ...item };
-    },
-    remove(item) {
-      const idx = this.list.indexOf(item);
-      this.list.splice(idx, 1);
-      localStorage.setItem("contacts", JSON.stringify(this.list));
     },
 
     filter() {

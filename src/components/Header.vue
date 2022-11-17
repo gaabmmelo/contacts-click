@@ -11,9 +11,8 @@
           + Criar contato
         </button>
 
-        <!-- <Modal v-show="isModalVisible" @close="closeModal" /> -->
       </div>
-      <input type="text" class="search" placeholder="Buscar..." /><font-awesome-icon icon="search" />
+      <input type="text" class="search" placeholder="Buscar..." />
     </div>
   </div>
 </template>
