@@ -53,7 +53,7 @@
 <script>
 export default {
   name: "Modal",
-  props: ["list", "contact", "editContact"],
+  props: ["list", "editContact"],
   watch: {
     editContact: function (newVal) {
       this.contact = newVal;
