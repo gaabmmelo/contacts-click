@@ -41,7 +41,7 @@
           <button type="button" class="btn btn-transparent" @click="close()">
             Cancelar
           </button>
-          <button type="button" class="btn btn-coral" @click="saveContact()">
+          <button type="button" class="btn btn-coral" @click="saveContact()" :disabled="!contact.name && !contact.email && !contact.telephone" >
             Salvar
           </button>
         </footer>
@@ -70,6 +70,11 @@ export default {
     };
   },
   methods: {
+    validEmail: function (email) {
+      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
+    },
+
     saveContact() {
       if (this.contact.id === 0) {
         this.contact.id = this.list.length ? this.list.at(-1).id + 1 : 1;
@@ -178,6 +183,10 @@ export default {
   width: 80px;
   height: 30px;
   border-radius: 20px;
+}
+
+.btn-coral:disabled {
+  opacity: 0.32;
 }
 
 .btn-coral:hover {
