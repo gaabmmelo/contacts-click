@@ -84,17 +84,22 @@ export default {
   },
   methods: {
     filterContacts(search = null) {
-      console.log(search);
       this.filteredContacts = this.list;
       if (search) {
         this.filteredContacts = this.list.filter((contact) => {
           return (
             contact.name.toLowerCase().includes(search.toLowerCase()) ||
-            contact.email.toLowerCase().includes(search.toLowerCase()) ||
-            contact.telephone.toLowerCase().includes(search.toLowerCase())
+            contact.email?.toLowerCase().includes(search.toLowerCase()) ||
+            contact.telephone?.toLowerCase().includes(search.toLowerCase())
           );
         });
       }
+
+      this.filteredContacts.sort(function(a, b) {
+        const contact1 = a.name.toLowerCase()
+        const contact2 = b.name.toLowerCase()
+        return (contact1 < contact2) ? -1 : (contact1 > contact2) ? 1 : 0;
+      })
     },
     showModal() {
       this.isModalVisible = true;
