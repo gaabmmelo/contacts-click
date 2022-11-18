@@ -26,7 +26,7 @@
         <tbody>
           <!--contact in list-->
           <tr v-for="contact in this.filteredContacts" :key="contact.id">
-            <td>{{ contact.name }}</td>
+            <td><button class="alpha-order">{{ contact.name.charAt(0).toUpperCase() }}</button> {{ contact.name }}</td>
             <td>{{ contact.email }}</td>
             <td>{{ contact.telephone }}</td>
             <td class="actions">
@@ -173,4 +173,15 @@ body {
 .table tbody tr:hover {
   background-color: #fff3f2 !important;
 }
+
+.table .alpha-order {
+    height: 24px;
+    width: 24px;
+    background-color: #fa8d68;
+    border: unset;
+    border-radius: 20px;
+    color: white;
+    font-weight: bold;
+}
+
 </style>
