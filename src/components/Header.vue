@@ -10,9 +10,14 @@
         <button type="button" class="btn-create" @click="showModal">
           + Criar contato
         </button>
-
       </div>
-      <input type="text" class="search" placeholder="Buscar..." />
+      <input
+        type="text"
+        class="search"
+        placeholder="Buscar..."
+        v-model="search"
+        v-on:keyup="this.$emit('filterContacts', this.search)"
+      />
     </div>
   </div>
 </template>
@@ -28,11 +33,12 @@ export default {
   data() {
     return {
       isModalVisible: false,
+      search: null
     };
   },
   methods: {
     showModal() {
-      this.$emit('showModal');
+      this.$emit("showModal");
     },
   },
 };

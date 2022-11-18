@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Header @showModal="showModal" />
+    <Header @showModal="showModal" @filterContacts="filterContacts" />
     <Modal
       v-show="isModalVisible"
       @close="closeModal"
@@ -24,16 +24,25 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="contact in list" :key="contact.id">
+          <!--contact in list-->
+          <tr v-for="contact in this.filteredContacts" :key="contact.id">
             <td>{{ contact.name }}</td>
             <td>{{ contact.email }}</td>
             <td>{{ contact.telephone }}</td>
             <td class="actions">
               <button @click="edit(contact)" class="btn btn-action">
-                <img class="icon-action" src="@/assets/ic-edit.svg" alt="Editar">
+                <img
+                  class="icon-action"
+                  src="@/assets/ic-edit.svg"
+                  alt="Editar"
+                />
               </button>
               <button @click="showModalDelete" class="btn btn-action">
-                <img class="icon-action" src="@/assets/ic-delete.svg" alt="Excluir">
+                <img
+                  class="icon-action"
+                  src="@/assets/ic-delete.svg"
+                  alt="Excluir"
+                />
               </button>
             </td>
           </tr>
@@ -46,7 +55,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import Header from "@/components/Header.vue";
 import Modal from "@/components/Modal.vue";
 import ModalDelete from "@/components/ModalDelete.vue";
@@ -57,6 +65,7 @@ export default {
   data() {
     return {
       list: [],
+      filteredContacts: [],
       isModalVisible: false,
       isModalVisibleDelete: false,
       editContact: {},
@@ -71,8 +80,22 @@ export default {
   mounted() {
     const contacts = JSON.parse(localStorage.getItem("contacts"));
     this.list = contacts ? contacts : [];
+    this.filterContacts();
   },
   methods: {
+    filterContacts(search = null) {
+      console.log(search);
+      this.filteredContacts = this.list;
+      if (search) {
+        this.filteredContacts = this.list.filter((contact) => {
+          return (
+            contact.name.toLowerCase().includes(search.toLowerCase()) ||
+            contact.email.toLowerCase().includes(search.toLowerCase()) ||
+            contact.telephone.toLowerCase().includes(search.toLowerCase())
+          );
+        });
+      }
+    },
     showModal() {
       this.isModalVisible = true;
     },
@@ -85,16 +108,9 @@ export default {
     closeModalDelete() {
       this.isModalVisibleDelete = false;
     },
-
     edit(item) {
       this.showModal();
       this.editContact = { ...item };
-    },
-
-    filter() {
-      if (this.filters.numeroNFE != "") {
-        return this.filters;
-      }
     },
   },
 };
@@ -128,31 +144,33 @@ body {
 }
 
 .table td.actions {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
 .table button.btn.btn-action {
-    height: 36px;
-    width: 36px;
-    background: transparent;
-    border: none;
+  height: 36px;
+  width: 36px;
+  background: transparent;
+  border: none;
 }
 
 .table button.btn.btn-action:hover {
-    cursor: pointer;
-    transform: scale(1.1);
-    box-shadow: inset 0 0 0 1px hsla(0,0%,100%,.16),0 0 0 .5px rgba(0,0,0,.08),inset 0 0 0 .5px rgba(0,0,0,.08),0 2px 4px .5px rgba(0,0,0,.16)!important;
-    background: #fff0ef;
-    border-radius: 25px;
+  cursor: pointer;
+  transform: scale(1.1);
+  box-shadow: inset 0 0 0 1px hsla(0, 0%, 100%, 0.16),
+    0 0 0 0.5px rgba(0, 0, 0, 0.08), inset 0 0 0 0.5px rgba(0, 0, 0, 0.08),
+    0 2px 4px 0.5px rgba(0, 0, 0, 0.16) !important;
+  background: #fff0ef;
+  border-radius: 25px;
 }
 
 .table button.btn.btn-action .icon-action {
-    height: 16px;
+  height: 16px;
 }
 
-.table tr:hover {
-    background-color: #fff3f2!important;
+.table tbody tr:hover {
+  background-color: #fff3f2 !important;
 }
 </style>
