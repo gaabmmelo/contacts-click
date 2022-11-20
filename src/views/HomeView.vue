@@ -14,7 +14,7 @@
       :list="list"
     />
 
-    <div class="content">
+    <div class="content" v-if="this.filteredContacts.length > 0">
       <table class="table">
         <thead>
           <tr>
@@ -26,7 +26,12 @@
         <tbody>
           <!--contact in list-->
           <tr v-for="contact in this.filteredContacts" :key="contact.id">
-            <td><button class="alpha-order">{{ contact.name.charAt(0).toUpperCase() }}</button> {{ contact.name }}</td>
+            <td>
+              <button class="alpha-order">
+                {{ contact.name.charAt(0).toUpperCase() }}
+              </button>
+              {{ contact.name }}
+            </td>
             <td>{{ contact.email }}</td>
             <td>{{ contact.telephone }}</td>
             <td class="actions">
@@ -48,6 +53,14 @@
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <div class="content" v-if="this.filteredContacts.length <= 0">
+      <img class="icon-book" src="" alt=""/>
+      <p class="txt">Nenhum contato foi criado ainda.</p>
+      <button type="button" class="btn-create" @click="showModal">
+        + Criar contato
+      </button>
     </div>
 
     <Footer />
@@ -95,11 +108,11 @@ export default {
         });
       }
 
-      this.filteredContacts.sort(function(a, b) {
-        const contact1 = a.name.toLowerCase()
-        const contact2 = b.name.toLowerCase()
-        return (contact1 < contact2) ? -1 : (contact1 > contact2) ? 1 : 0;
-      })
+      this.filteredContacts.sort(function (a, b) {
+        const contact1 = a.name.toLowerCase();
+        const contact2 = b.name.toLowerCase();
+        return contact1 < contact2 ? -1 : contact1 > contact2 ? 1 : 0;
+      });
     },
     showModal() {
       this.isModalVisible = true;
@@ -180,13 +193,16 @@ body {
 }
 
 .table .alpha-order {
-    height: 24px;
-    width: 24px;
-    background-color: #fa8d68;
-    border: unset;
-    border-radius: 20px;
-    color: white;
-    font-weight: bold;
+  height: 24px;
+  width: 24px;
+  background-color: #fa8d68;
+  border: unset;
+  border-radius: 20px;
+  color: white;
+  font-weight: bold;
 }
 
+.icon-book {
+  margin-top: 7rem;
+}
 </style>
