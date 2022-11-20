@@ -56,7 +56,7 @@
     </div>
 
     <div class="content" v-if="this.filteredContacts.length <= 0">
-      <img class="icon-book" src="" alt=""/>
+      <img class="icon-book" src="@/assets/ic-book.png" alt="" />
       <p class="txt">Nenhum contato foi criado ainda.</p>
       <button type="button" class="btn-create" @click="showModal">
         + Criar contato
@@ -204,5 +204,12 @@ body {
 
 .icon-book {
   margin-top: 7rem;
+}
+
+.txt {
+  margin: 1.5rem 0;
+  font-family: roboto, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
 }
 </style>
