@@ -36,7 +36,7 @@
                 name="telephone"
                 placeholder="(xx) xxxxx-xxxx"
                 v-on:keyup="formatTelephone"
-                maxlength="14"
+                maxlength="15"
                 v-model="contact.telephone"
                 autocomplete="off"
               />
@@ -56,7 +56,7 @@
             type="button"
             class="btn btn-coral"
             @click="saveContact()"
-            :disabled="!contact.name && !contact.email && !contact.telephone"
+            :disabled="!contact.name && !contact.email && (!contact.telephone)"
           >
             Salvar
           </button>
@@ -100,12 +100,12 @@ export default {
       this.$emit("close");
       this.contact = { id: 0, name: null, email: null, telephone: null };
     },
-		formatTelephone({ currentTarget: { value } }) {
-			const formattedTelephone = value
-				.replace(/\D/g, "")
-				.replace(/(\d{2})/, "($1)")
-				.replace(/(\d{4,5})(\d{4})/, " $1-$2");
-			this.contact.telephone = formattedTelephone;
+		formatTelephone({currentTarget: {value} }) {
+      if (!value) return "";
+      value = value.replace(/\D/g,'')
+      value = value.replace(/(\d{2})(\d)/,"($1) $2")
+      value = value.replace(/(\d)(\d{4})$/,"$1-$2")
+      this.contact.telephone = value;
 		},
 
     closeModal() {
