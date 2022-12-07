@@ -35,6 +35,8 @@
                 type="tel"
                 name="telephone"
                 placeholder="(xx) xxxxx-xxxx"
+                v-on:keyup="formatTelephone"
+                maxlength="14"
                 v-model="contact.telephone"
               />
             </div>
@@ -97,6 +99,13 @@ export default {
       this.$emit("close");
       this.contact = { id: 0, name: null, email: null, telephone: null };
     },
+		formatTelephone({ currentTarget: { value } }) {
+			const formattedTelephone = value
+				.replace(/\D/g, "")
+				.replace(/(\d{2})/, "($1)")
+				.replace(/(\d{4,5})(\d{4})/, " $1-$2");
+			this.contact.telephone = formattedTelephone;
+		},
 
     closeModal() {
       this.$emit("close");
