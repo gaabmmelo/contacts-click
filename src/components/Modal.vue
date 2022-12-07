@@ -25,10 +25,10 @@
           <slot name="body">
             <div class="form">
               <label for="name">Nome:</label>
-              <input type="text" name="name" v-model="contact.name" />
+              <input type="text" name="name" v-model="contact.name" autocomplete="off"/>
 
               <label for="email">E-mail:</label>
-              <input type="email" name="email" v-model="contact.email" />
+              <input type="email" name="email" v-model="contact.email" autocomplete="off"/>
 
               <label for="telephone">Telefone:</label>
               <input
@@ -38,6 +38,7 @@
                 v-on:keyup="formatTelephone"
                 maxlength="14"
                 v-model="contact.telephone"
+                autocomplete="off"
               />
             </div>
           </slot>
